@@ -5,6 +5,7 @@ import RegistrationForm from './components/RegistrationForm';
 import LoginForm from './components/LoginForm';  // создашь по аналогии с RegistrationForm
 import { PrivateRoute } from './components/PrivateRoute';
 import Dashboard from './pages/Dashboard';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
