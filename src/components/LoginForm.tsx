@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_URL } from "../config";
 
 const LoginForm = () => {
   const [mail, setEmail] = useState("");
@@ -19,7 +20,7 @@ const LoginForm = () => {
     setLoading(true);
     
     try {
-      const response = await fetch("/auth/login", {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         credentials: 'include',
         headers: { "Content-Type": "application/json" },
@@ -33,7 +34,7 @@ const LoginForm = () => {
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
 
-        console.log('[LoginForm] Токены сохранены:', data.access_token, data.refresh_token);
+        console.log('[LoginForm] Токены сохранены:', data.accessToken, data.refreshToken);
         setSuccess("Вход выполнен успешно!");
         setTimeout(() => window.location.href = "/dashboard", 1000);
       } else {

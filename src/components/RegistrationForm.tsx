@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_URL } from "../config";
 
 const RegistrationForm = () => {
   const [name, setName] = useState("");
@@ -20,7 +21,7 @@ const RegistrationForm = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("/auth/register", {
+      const response = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

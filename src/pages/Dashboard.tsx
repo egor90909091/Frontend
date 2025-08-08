@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { API_URL } from '../config';
 
 interface User {
   id: number;
@@ -51,7 +52,7 @@ const Dashboard = () => {
       }
 
       try {
-        const res = await fetch(`/users/${userId}`, {
+        const res = await fetch(`${API_URL}/api/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -61,7 +62,7 @@ const Dashboard = () => {
           throw new Error('Ошибка загрузки данных пользователя');
         }
 
-        const data = await res.json();
+        const data: User = await res.json();
         setUser(data);
       } catch (err: any) {
         setError(err.message);
@@ -81,7 +82,7 @@ const Dashboard = () => {
     }
 
     try {
-      const res = await fetch('/users', {
+      const res = await fetch(`${API_URL}/api/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -91,7 +92,7 @@ const Dashboard = () => {
         throw new Error('Ошибка загрузки списка пользователей');
       }
 
-      const data = await res.json();
+      const data: User[] = await res.json();
       setAllUsers(data);
       setShowAllUsers(true);
     } catch (err: any) {
@@ -107,7 +108,7 @@ const Dashboard = () => {
     }
 
     try {
-      const res = await fetch(`/users/${userId}`, {
+      const res = await fetch(`${API_URL}/api/users/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -120,10 +121,10 @@ const Dashboard = () => {
         throw new Error('Ошибка обновления пользователя');
       }
 
-      const updatedUser = await res.json();
+      const updatedUser: User = await res.json();
       
       // Обновляем список пользователей
-      setAllUsers(prev => prev.map(u => u.id === userId ? updatedUser : u));
+      setAllUsers((prev: User[]) => prev.map((u: User) => u.id === userId ? updatedUser : u));
       setEditingUser(null);
       setUpdateData({});
       
@@ -148,7 +149,7 @@ const Dashboard = () => {
     }
 
     try {
-      const res = await fetch(`/users/${userId}`, {
+      const res = await fetch(`${API_URL}/api/users/${userId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -160,7 +161,7 @@ const Dashboard = () => {
       }
 
       // Удаляем пользователя из списка
-      setAllUsers(prev => prev.filter(u => u.id !== userId));
+      setAllUsers((prev: User[]) => prev.filter((u: User) => u.id !== userId));
     } catch (err: any) {
       setError(err.message);
     }
@@ -202,7 +203,7 @@ const Dashboard = () => {
     }
 
     try {
-      const res = await fetch(`/users/${user.id}`, {
+      const res = await fetch(`${API_URL}/api/users/${user.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -215,7 +216,7 @@ const Dashboard = () => {
         throw new Error('Ошибка обновления профиля');
       }
 
-      const updatedUser = await res.json();
+      const updatedUser: User = await res.json();
       setUser(updatedUser);
       setEditingProfile(false);
       setUpdateData({});
@@ -402,7 +403,7 @@ const Dashboard = () => {
                           >
                             <option value="USER">USER</option>
                             <option value="ADMIN">ADMIN</option>
-                            <option value="ADMIN">MANAGER</option>
+                            <option value="MANAGER">MANAGER</option>
                           </select>
                         </div>
                         <button
